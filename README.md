@@ -1,6 +1,6 @@
 # Installation:
 
-1. `pip install -e git+repo_link`
+1. `pip install -e git+https://github.com/Rykarix/getstat_python.git`
 2. Rename `.env_tmp` to `.env` and update vars
 3. [Optional] run `pip install -m update`
 4. run `pip install -r requirements.txt`

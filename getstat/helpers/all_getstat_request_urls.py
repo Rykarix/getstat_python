@@ -3,17 +3,14 @@ from __future__ import annotations
 
 import json
 import logging
-import os
 import re
 from pathlib import Path
 
-import coloredlogs
 import requests
-from lxml import html
+from bs4 import BeautifulSoup
 
 # === Logging:
 log = logging.getLogger(__name__)
-coloredlogs.install(level="DEBUG", logger=log)
 
 
 def load_json(filepath: Path) -> dict:
@@ -74,21 +71,22 @@ def fetch_getstat_apis(url: str) -> dict:
     """Fetch all GetStat API endpoints and their search parameters from a URL."""
     response = requests.get(url, timeout=10)
     if response.status_code == 200:
-        tree = html.fromstring(response.content)
-        json_request_paragraphs = tree.xpath("//p[contains(text(), 'XML request URL:')]")
+        soup = BeautifulSoup(response.content, "html.parser")
+        paragraphs = soup.find_all("p", string=re.compile(r"XML request URL:"))
         d = {}
-        for paragraph in json_request_paragraphs:
-            next_sibling = paragraph.getnext()
-            if next_sibling is not None and next_sibling.tag == "pre":
-                url_path = next_sibling.text_content().strip()
+        for paragraph in paragraphs:
+            next_sibling = paragraph.find_next_sibling("pre")
+            if next_sibling is not None:
+                url_path = next_sibling.get_text(strip=True)
                 endpoint, search_param = split_endpoint_from_search_params(url_path)
                 d[endpoint] = search_param
-    return dict(sorted(d.items()))
+        return dict(sorted(d.items()))
+    return {}
 
 
 if __name__ == "__main__":
     """Example usage of the GetStat API client."""
-
+    logging.basicConfig(level=logging.DEBUG)
     CWD = Path().cwd()
     DataPath = CWD / "data"
     DataPath.mkdir(parents=True, exist_ok=True)

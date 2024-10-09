@@ -34,21 +34,13 @@ if __name__ == "__main__":
     import logging
     import os
     from pathlib import Path
-    from pprint import pprint
 
-    import coloredlogs
     import pandas as pd
     from getstat import GetStat
 
     # === Test related vars:
     log = logging.getLogger(__name__)
-    coloredlogs.install(
-        level="DEBUG",
-        logger=log,
-        fmt="%(asctime)s - %(message)s",
-        datefmt="%H:%M:%S",
-    )
-
+    logging.basicConfig(level=logging.DEBUG)
     CWD = Path().cwd()
     DataPath = CWD / "data"
     DataPath.mkdir(parents=True, exist_ok=True)
@@ -66,20 +58,6 @@ if __name__ == "__main__":
     # Or, if you want to return data as a pandas DataFrame:
     client = GetStat(subdomain=subdomain, apikey=apikey, return_dataframe=True)
 
-    # === Calling methods on client
-    # === RELAVENT METHODS:
-    # - client.projects.list                - List all projects (aka clients)
-
-    # - client.sites.list                   - Lists all sites in a project.
-    # - client.sites.ranking_distributions  - All ranking distribution records for Google.
-    # - client.sites.sov                    - The SoV score for each competitor domain that appears on the SERP
-    # - client.sites.mfd                    - The competitor domains most frequently in the top 10.
-
-    # - client.tags.list                    - Lists all tags in a site.
-    # - client.tags.ranking_distributions   - All ranking distribution records for Google.
-    # - client.tags.sov                     - The SoV score for each competitor domain that appears on the SERP
-    # - client.tags.mfd                     - The competitor domains most frequently in the top 10.
-
     LEVEL = "project"
     log.warning(f"============= {LEVEL}-level data =============")
 
@@ -87,8 +65,6 @@ if __name__ == "__main__":
     task = client.projects.list()
     df = fetch_or_load_parquet(task, LEVEL, TASK, overwrite=overwrite)
     log.info(f"Data for: {LEVEL}.{TASK}()")
-    pprint(df.head(1))
-    pprint(df.info())
 
     LEVEL = "sites"
     log.warning(f"============= {LEVEL}-level data =============")
@@ -97,8 +73,6 @@ if __name__ == "__main__":
     task = client.sites.list(project_id=project_id)
     df = fetch_or_load_parquet(task, LEVEL, TASK, overwrite=overwrite)
     log.info(f"Data for: {LEVEL}.{TASK}()")
-    pprint(df.head(1))
-    pprint(df.info())
 
     TASK = "ranking_distributions"
     task = client.sites.ranking_distributions(
@@ -108,22 +82,16 @@ if __name__ == "__main__":
     )
     df = fetch_or_load_parquet(task, LEVEL, TASK, overwrite=overwrite)
     log.info(f"Data for: {LEVEL}.{TASK}()")
-    pprint(df.head(1))
-    pprint(df.info())
 
     TASK = "sov"
     task = client.sites.sov(site_id=site_id, from_date="2024-10-01", to_date="2024-10-06")
     df = fetch_or_load_parquet(task, LEVEL, TASK, overwrite=overwrite)
     log.info(f"Data for: {LEVEL}.{TASK}()")
-    pprint(df.head(1))
-    pprint(df.info())
 
     TASK = "mfd"
     task = client.sites.mfd(site_id=site_id, engine="google")
     df = fetch_or_load_parquet(task, LEVEL, TASK, overwrite=overwrite)
     log.info(f"Data for: {LEVEL}.{TASK}()")
-    pprint(df.head(1))
-    pprint(df.info())
 
     LEVEL = "tag"
     log.warning(f"============= {LEVEL}-level data =============")
@@ -132,8 +100,6 @@ if __name__ == "__main__":
     task = client.tags.list(site_id=site_id)
     df = fetch_or_load_parquet(task, LEVEL, TASK, overwrite=overwrite)
     log.info(f"Data for: {LEVEL}.{TASK}()")
-    pprint(df.head(1))
-    pprint(df.info())
 
     TASK = "ranking_distributions"
     task = client.tags.ranking_distributions(
@@ -143,19 +109,13 @@ if __name__ == "__main__":
     )
     df = fetch_or_load_parquet(task, LEVEL, TASK, overwrite=overwrite)
     log.info(f"Data for: {LEVEL}.{TASK}()")
-    pprint(df.head(1))
-    pprint(df.info())
 
     TASK = "sov"
     task = client.tags.sov(tag_id=tag_id, from_date="2024-10-01", to_date="2024-10-06")
     df = fetch_or_load_parquet(task, LEVEL, TASK, overwrite=overwrite)
     log.info(f"Data for: {LEVEL}.{TASK}()")
-    pprint(df.head(1))
-    pprint(df.info())
 
     TASK = "mfd"
     task = client.tags.mfd(tag_id=tag_id, engine="google")
     df = fetch_or_load_parquet(task, LEVEL, TASK, overwrite=overwrite)
     log.info(f"Data for: {LEVEL}.{TASK}()")
-    pprint(df.head(1))
-    pprint(df.info())

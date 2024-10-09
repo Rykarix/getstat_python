@@ -17,6 +17,10 @@ def walk_directory(directory: Path, tree: Tree) -> None:
         if path.name.startswith("."):
             continue
         if path.is_dir():
+            folder_name = path.name
+            exclusions = ["__pycache__"]
+            if folder_name in exclusions:
+                continue
             style = "dim" if path.name.startswith("__") else ""
             branch = tree.add(
                 f"[bold magenta]:open_file_folder: [link file://{path}]{escape(path.name)}",
@@ -25,6 +29,10 @@ def walk_directory(directory: Path, tree: Tree) -> None:
             )
             walk_directory(path, branch)
         else:
+            file_extension = path.suffix.lower()
+            exclusions = [".pyc"]
+            if file_extension in exclusions:
+                continue
             text_filename = Text(path.name, "green")
             text_filename.highlight_regex(r"\..*$", "bold red")
             text_filename.stylize(f"link file://{path}")

@@ -10,6 +10,7 @@
 1. call methods as needed
 
 # TODO:
+## Add API endpoints to client
 - ~~projects~~
 - ~~sites~~
 - ~~tags~~
@@ -18,6 +19,12 @@
 - rankings
 - serps
 - subaccounts
+## Utils
+- add utils for json initialised client
+## refactor & improve codebase
+- revisit pydantic models
+- add tests
+
 
 # Methods:
 

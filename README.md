@@ -1,14 +1,13 @@
 # Installation:
 
-1. `pip install -e git+https://github.com/Rykarix/getstat_python.git`
-2. Rename `.env_tmp` to `.env` and update vars
-3. [Optional] run `pip install -m update`
-4. run `pip install -r requirements.txt`
+1. `pip install -e git+https://github.com/Rykarix/getstat_python.git#egg=getstat`
+
 
 # Usage:
 
+1. Rename `.env_tmp` to `.env` and **update vars** as required
 1. initialise client with `client=GetStat(subdomain=subdomain, apikey=apikey, return_dataframe=True)`
-2. call methods as needed
+1. call methods as needed
 
 # TODO:
 - ~~projects~~

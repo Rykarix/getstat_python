@@ -22,7 +22,7 @@
 
 # Methods:
 
-Methods are categorised by endpoint path heirarchy. You can see each endpoint here: `https://help.getstat.com/knowledgebase/requests-and-responses/` and I've included a python file that puts all endpoints + their params into a dictionary for easy reference:
+Methods are categorised by endpoint path heirarchy. You can see each endpoint here: `https://help.getstat.com/knowledgebase/requests-and-responses/` and I've included a python file fetches all teh endpoints from this url & organises them & their params into a dictionary for easy reference:
 
 ```json
 {

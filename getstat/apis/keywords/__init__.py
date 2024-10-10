@@ -5,7 +5,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from ...api_request import APIRequest
+from ...api_request import APIRequest, notimplemented
 from . import schemas
 
 if TYPE_CHECKING:
@@ -27,6 +27,7 @@ class KeywordsRequest:
             schema_model=schemas.ListResponse,
         )
 
+    @notimplemented
     def create(self, name: str) -> APIRequest:
         """Creates a new Keyword with the given name."""
         return APIRequest(
@@ -36,11 +37,12 @@ class KeywordsRequest:
             schema_model=schemas.CreateResponse,
         )
 
-    def delete(self, Keyword_id: int) -> APIRequest:
+    @notimplemented
+    def delete(self, keyword_id: int) -> APIRequest:
         """Deletes a Keyword."""
         return APIRequest(
             self.client,
             path=schemas.KeywordEndpoints.delete,
-            params=schemas.DeleteRequest(id=Keyword_id),
+            params=schemas.DeleteRequest(id=keyword_id),
             schema_model=schemas.DeleteResponse,
         )

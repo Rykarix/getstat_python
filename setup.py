@@ -11,5 +11,6 @@ setup(
         "pydantic>=2.0",
         "requests>=2.0",
         "typing_extensions>=4.0",
+        "hide_from_traceback>=1.0",
     ],
 )

@@ -5,7 +5,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from ...api_request import APIRequest
+from ...api_request import APIRequest, notimplemented
 from . import schemas
 
 if TYPE_CHECKING:
@@ -27,6 +27,7 @@ class ProjectsRequest:
             schema_model=schemas.ListResponse,
         )
 
+    @notimplemented
     def create(self, name: str) -> APIRequest:
         """Creates a new project with the given name."""
         return APIRequest(
@@ -36,6 +37,7 @@ class ProjectsRequest:
             schema_model=schemas.CreateResponse,
         )
 
+    @notimplemented
     def update(self, project_id: int, name: str) -> APIRequest:
         """Updates the name of a project."""
         return APIRequest(
@@ -45,6 +47,7 @@ class ProjectsRequest:
             schema_model=schemas.UpdateResponse,
         )
 
+    @notimplemented
     def delete(self, project_id: int) -> APIRequest:
         """Deletes a project."""
         return APIRequest(

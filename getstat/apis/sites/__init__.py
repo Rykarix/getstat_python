@@ -5,7 +5,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Literal
 
-from ...api_request import APIRequest
+from ...api_request import APIRequest, notimplemented
 from . import schemas
 
 if TYPE_CHECKING:
@@ -40,6 +40,7 @@ class SitesRequest:
             schema_model=schemas.AllResponse,
         )
 
+    @notimplemented
     def create(
         self,
         project_id: int,
@@ -49,6 +50,7 @@ class SitesRequest:
         drop_directories: bool = False,
     ) -> APIRequest:
         """Creates a new site in a project."""
+        raise NotImplementedError
         return APIRequest(
             self.client,
             path=schemas.SiteEndpoints.create,
@@ -61,6 +63,7 @@ class SitesRequest:
             schema_model=schemas.CreateResponse,
         )
 
+    @notimplemented
     def update(
         self,
         site_id: int,
@@ -70,7 +73,7 @@ class SitesRequest:
         drop_directories: bool | None = None,
     ) -> APIRequest:
         """Updates a site's information."""
-
+        raise NotImplementedError
         return APIRequest(
             self.client,
             path=schemas.SiteEndpoints.update,
@@ -102,11 +105,13 @@ class SitesRequest:
             schema_model=schemas.RankingDistributionsResponse,
         )
 
+    @notimplemented
     def delete(
         self,
         site_id: int,
     ) -> APIRequest:
         """Deletes a site."""
+        raise NotImplementedError
         return APIRequest(
             self.client,
             path=schemas.SiteEndpoints.delete,

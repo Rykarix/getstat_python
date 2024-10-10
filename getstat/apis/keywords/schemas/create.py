@@ -1,32 +1,25 @@
-# getstat/apis/projects/schemas/create.py
-"""Schemas for the projects.create() method."""
+# getstat/apis/keywords/schemas/create.py
+"""Schemas for the keywords.create() method."""
 
 from __future__ import annotations
 
-from pydantic import BaseModel, Field, StringConstraints
-from typing_extensions import Annotated
+from pydantic import BaseModel, Field
 
 from .base import Result
 
 
 class CreateRequest(BaseModel):
-    """Schema for request parameters of projects.create()."""
-
-    name: Annotated[str | None, StringConstraints(strip_whitespace=True)] = Field(
-        ...,
-        description="The name of the project.",
-        example="New Project",
-    )
+    """Schema for request parameters of keywords.create()."""
 
 
 class Response(BaseModel):
-    """Schema for the entire response of projects.create()."""
+    """Schema for the entire response of keywords.create()."""
 
     response_code: int = Field(..., alias="responsecode")
     result: list[Result] = Field(..., alias="Result")
 
 
 class CreateResponse(BaseModel):
-    """Top-level schema for projects.create() response."""
+    """Top-level schema for keywords.create() response."""
 
     response: Response = Field(..., alias="Response")

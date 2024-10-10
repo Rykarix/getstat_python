@@ -6,6 +6,7 @@ from __future__ import annotations
 from datetime import datetime
 
 from pydantic import BaseModel, Field, field_validator
+from typing_extensions import Annotated
 
 
 class KeywordStats(BaseModel):
@@ -61,9 +62,17 @@ class Result(BaseModel):
 class ListRequest(BaseModel):
     """Schema for the request parameters of keywords.list()."""
 
-    site_id: int = Field(...)
-    start: int = Field(...)
-    results: int = Field(...)
+    site_id: int
+    start: int
+    results: Annotated[
+        int,
+        Field(
+            default=100,
+            strict=True,
+            le=5000,  # TODO: Check if this is correct for this endpoint
+            description="The number of results per page.",
+        ),
+    ]
 
 
 class Response(BaseModel):

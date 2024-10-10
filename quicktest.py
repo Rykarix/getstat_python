@@ -64,7 +64,6 @@ if __name__ == "__main__":
     TASK = "list"
     task = client.projects.list()
     df = fetch_or_load_parquet(task, LEVEL, TASK, overwrite=overwrite)
-    log.info(f"Data for: {LEVEL}.{TASK}()")
 
     LEVEL = "sites"
     log.warning(f"============= {LEVEL}-level data =============")
@@ -72,7 +71,6 @@ if __name__ == "__main__":
     TASK = "list"
     task = client.sites.list(project_id=project_id)
     df = fetch_or_load_parquet(task, LEVEL, TASK, overwrite=overwrite)
-    log.info(f"Data for: {LEVEL}.{TASK}()")
 
     TASK = "ranking_distributions"
     task = client.sites.ranking_distributions(
@@ -81,17 +79,14 @@ if __name__ == "__main__":
         to_date="2024-10-06",
     )
     df = fetch_or_load_parquet(task, LEVEL, TASK, overwrite=overwrite)
-    log.info(f"Data for: {LEVEL}.{TASK}()")
 
     TASK = "sov"
     task = client.sites.sov(site_id=site_id, from_date="2024-10-01", to_date="2024-10-06")
     df = fetch_or_load_parquet(task, LEVEL, TASK, overwrite=overwrite)
-    log.info(f"Data for: {LEVEL}.{TASK}()")
 
     TASK = "mfd"
     task = client.sites.mfd(site_id=site_id, engine="google")
     df = fetch_or_load_parquet(task, LEVEL, TASK, overwrite=overwrite)
-    log.info(f"Data for: {LEVEL}.{TASK}()")
 
     LEVEL = "tag"
     log.warning(f"============= {LEVEL}-level data =============")
@@ -99,7 +94,6 @@ if __name__ == "__main__":
     TASK = "list"
     task = client.tags.list(site_id=site_id)
     df = fetch_or_load_parquet(task, LEVEL, TASK, overwrite=overwrite)
-    log.info(f"Data for: {LEVEL}.{TASK}()")
 
     TASK = "ranking_distributions"
     task = client.tags.ranking_distributions(
@@ -113,17 +107,16 @@ if __name__ == "__main__":
     TASK = "sov"
     task = client.tags.sov(tag_id=tag_id, from_date="2024-10-01", to_date="2024-10-06")
     df = fetch_or_load_parquet(task, LEVEL, TASK, overwrite=overwrite)
-    log.info(f"Data for: {LEVEL}.{TASK}()")
 
     TASK = "mfd"
     task = client.tags.mfd(tag_id=tag_id, engine="google")
     df = fetch_or_load_parquet(task, LEVEL, TASK, overwrite=overwrite)
-    log.info(f"Data for: {LEVEL}.{TASK}()")
 
     LEVEL = "keyword"
     log.warning(f"============= {LEVEL}-level data =============")
 
     TASK = "list"
-    task = client.keywords.list(site_id=site_id)
-    df = fetch_or_load_parquet(task, LEVEL, TASK, overwrite=overwrite)
+    task = client.keywords.list(site_id=site_id, results=5000)
+    df = fetch_or_load_parquet(task, LEVEL, TASK, overwrite=True)
     log.info(f"Data for: {LEVEL}.{TASK}()")
+    log.info(df.shape[0])

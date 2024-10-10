@@ -14,16 +14,22 @@ Ada / can-ada documentation (WHATWG URL compliant url parser):
 from __future__ import annotations
 
 import json
+from pathlib import Path
 from typing import Any
 
 import pandas as pd
 import requests
 from ada_url import URL, URLSearchParams, join_url
-from pydantic import BaseModel
+from pydantic import BaseModel, ValidationError
 
+from .apis.keywords import KeywordsRequest
 from .apis.projects import ProjectsRequest
 from .apis.sites import SitesRequest
 from .apis.tags import TagsRequest
+
+
+class ValidationErrorWithContext(ValueError):
+    """Custom error class for validation errors with additional context."""
 
 
 class GetStat:
@@ -58,6 +64,7 @@ class GetStat:
         self.projects = ProjectsRequest(self)
         self.sites = SitesRequest(self)
         self.tags = TagsRequest(self)
+        self.keywords = KeywordsRequest(self)
 
     def add_query_params(self, url: URL, params: dict[str, Any]) -> URL:
         """Adds query parameters to a URL."""
@@ -89,12 +96,12 @@ class GetStat:
         """Executes the HTTP GET request to the given URL and returns the response."""
 
         response = requests.get(url.href, timeout=30)
-        # Handle errors
+        # errors
         response.raise_for_status()
         if list(response.json().keys()) == ["Result"]:
             errmsg = response.json()["Result"]
             raise ValueError(errmsg)
-
+        # response
         if self.respond_in_json:
             json_data = json.loads(response.text)
             if self.return_dataframe:
@@ -107,9 +114,37 @@ class GetStat:
         else:
             return response.text
 
+    def validation_test(self, schema_model: type[BaseModel], json_data: dict) -> BaseModel:
+        """Test the schema validation of the given json data and log the failing results."""
+        try:
+            return schema_model.model_validate(json_data)
+        except ValidationError as e:
+            errmsg = f"{json.dumps(e.errors(include_context=True, include_input=True),indent=2)}"
+            raise ValidationErrorWithContext(errmsg) from e
+
+    # def validation_test(self, schema_model: type[BaseModel], json_data: dict) -> BaseModel:
+    #     """Test the schema validation of the given json data."""
+    #     try:
+    #         return schema_model.model_validate(json_data)
+    #     except ValidationError as e:
+    #         CWD = Path().cwd()
+    #         LogPath = CWD / "logs"
+    #         LogPath.mkdir(parents=True, exist_ok=True)
+    #         filepath = LogPath / "schema_validation.log"
+    #         with filepath.open("w") as f:
+    #             f.write(f"Validation failed for {schema_model.__name__}:\n")
+    #             f.write("============= Error Details: =============\n")
+    #             f.write(f"  {e}\n\n")
+    #             f.write("============= Specific Errors: =============\n")
+    #             f.write(f"  {e.errors(include_context=True, include_input=True)}\n\n")
+    #             f.write("============= Json Data: =============\n")
+    #             f.write(f"  {json.dumps(json_data, indent=2)}")
+    #         errmsg = f"Schema validation failed. See log at {filepath}"
+    #         raise ValueError(errmsg) from e
+
     def schema_to_dataframe(self, schema_model: type[BaseModel], json_data: dict) -> pd.DataFrame:
         """Converts JSON data to a pandas DataFrame using the provided schema model."""
-        validated_data = schema_model.model_validate(json_data)
+        validated_data = self.validation_test(schema_model, json_data)
         response = validated_data.response
         data_list = None
         if hasattr(response, "result"):

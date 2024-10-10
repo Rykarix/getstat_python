@@ -63,7 +63,7 @@ class ListRequest(BaseModel):
 
     site_id: int = Field(...)
     start: int = Field(...)
-    limit: int = Field(...)
+    results: int = Field(...)
 
 
 class Response(BaseModel):

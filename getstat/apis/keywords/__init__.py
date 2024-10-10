@@ -23,7 +23,7 @@ class KeywordsRequest:
         return APIRequest(
             self.client,
             path=schemas.KeywordEndpoints.list,
-            params=schemas.ListRequest(site_id=site_id, start=start, limit=results),
+            params=schemas.ListRequest(site_id=site_id, start=start, results=results),
             schema_model=schemas.ListResponse,
         )
 

@@ -127,6 +127,3 @@ if __name__ == "__main__":
     task = client.keywords.list(site_id=site_id)
     df = fetch_or_load_parquet(task, LEVEL, TASK, overwrite=overwrite)
     log.info(f"Data for: {LEVEL}.{TASK}()")
-
-    TASK = "create"
-    task = client.keywords.create()

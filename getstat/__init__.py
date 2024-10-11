@@ -122,26 +122,6 @@ class GetStat:
             errmsg = f"{json.dumps(e.errors(include_context=True, include_input=True),indent=2)}"
             raise ValidationErrorWithContext(errmsg) from e
 
-    # def validation_test(self, schema_model: type[BaseModel], json_data: dict) -> BaseModel:
-    #     """Test the schema validation of the given json data."""
-    #     try:
-    #         return schema_model.model_validate(json_data)
-    #     except ValidationError as e:
-    #         CWD = Path().cwd()
-    #         LogPath = CWD / "logs"
-    #         LogPath.mkdir(parents=True, exist_ok=True)
-    #         filepath = LogPath / "schema_validation.log"
-    #         with filepath.open("w") as f:
-    #             f.write(f"Validation failed for {schema_model.__name__}:\n")
-    #             f.write("============= Error Details: =============\n")
-    #             f.write(f"  {e}\n\n")
-    #             f.write("============= Specific Errors: =============\n")
-    #             f.write(f"  {e.errors(include_context=True, include_input=True)}\n\n")
-    #             f.write("============= Json Data: =============\n")
-    #             f.write(f"  {json.dumps(json_data, indent=2)}")
-    #         errmsg = f"Schema validation failed. See log at {filepath}"
-    #         raise ValueError(errmsg) from e
-
     def schema_to_dataframe(self, schema_model: type[BaseModel], json_data: dict) -> pd.DataFrame:
         """Converts JSON data to a pandas DataFrame using the provided schema model."""
         validated_data = self.validation_test(schema_model, json_data)

@@ -22,7 +22,10 @@ class UpdateRequest(BaseModel):
     drop_directories: bool | None
 
 
-class Response(BaseModel):
+from ...global_schemas import BaseResponseModel
+
+
+class Response(BaseResponseModel):
     """Schema for the entire response of sites.update()."""
 
     response_code: int = Field(..., alias="responsecode")

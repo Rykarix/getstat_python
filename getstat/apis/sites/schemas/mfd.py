@@ -24,7 +24,10 @@ class Site(BaseModel):
     analyzed_on: datetime = Field(..., alias="AnalyzedOn")
 
 
-class Response(BaseModel):
+from ...global_schemas import BaseResponseModel
+
+
+class Response(BaseResponseModel):
     """Schema for the 'Response' key in mfd.sites() & mfd.tags()."""
 
     response_code: int = Field(..., alias="responsecode")

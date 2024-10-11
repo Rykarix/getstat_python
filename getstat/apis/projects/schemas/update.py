@@ -14,7 +14,10 @@ class UpdateRequest(BaseModel):
     # TODO
 
 
-class Response(BaseModel):
+from ...global_schemas import BaseResponseModel
+
+
+class Response(BaseResponseModel):
     """Schema for the 'Response' key in projects.update()."""
 
     response_code: int = Field(..., alias="responsecode")

@@ -12,7 +12,10 @@ class ListRequest(BaseModel):
     """Schema for the request parameters of projects.list()."""
 
 
-class Response(BaseModel):
+from ...global_schemas import BaseResponseModel
+
+
+class Response(BaseResponseModel):
     """Schema for the 'Response' key in projects.list()."""
 
     response_code: int = Field(..., alias="responsecode")

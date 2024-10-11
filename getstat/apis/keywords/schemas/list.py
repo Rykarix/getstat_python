@@ -75,7 +75,10 @@ class ListRequest(BaseModel):
     ]
 
 
-class Response(BaseModel):
+from ...global_schemas import BaseResponseModel
+
+
+class Response(BaseResponseModel):
     """Schema for the 'Response' key in keywords.list()."""
 
     response_code: int = Field(..., alias="responsecode")

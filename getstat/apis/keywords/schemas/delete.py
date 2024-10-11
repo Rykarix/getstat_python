@@ -31,7 +31,10 @@ class Result(BaseModel):
         return values
 
 
-class Response(BaseModel):
+from ...global_schemas import BaseResponseModel
+
+
+class Response(BaseResponseModel):
     """Schema for the 'Response' key in projects.delete()."""
 
     response_code: int = Field(..., alias="responsecode")

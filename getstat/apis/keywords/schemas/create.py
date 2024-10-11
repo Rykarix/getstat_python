@@ -12,7 +12,10 @@ class CreateRequest(BaseModel):
     """Schema for request parameters of keywords.create()."""
 
 
-class Response(BaseModel):
+from ...global_schemas import BaseResponseModel
+
+
+class Response(BaseResponseModel):
     """Schema for the entire response of keywords.create()."""
 
     response_code: int = Field(..., alias="responsecode")

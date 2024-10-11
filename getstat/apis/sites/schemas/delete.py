@@ -22,7 +22,10 @@ class DeleteResult(BaseModel):
     id: int = Field(..., alias="Id")
 
 
-class Response(BaseModel):
+from ...global_schemas import BaseResponseModel
+
+
+class Response(BaseResponseModel):
     """Schema for the "Response" key in sites.delete()."""
 
     response_code: int = Field(..., alias="responsecode")

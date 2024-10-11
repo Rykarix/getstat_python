@@ -63,7 +63,10 @@ class ShareOfVoice(BaseModel):
     site: list[Site] = Field(..., alias="Site")
 
 
-class Response(BaseModel):
+from ...global_schemas import BaseResponseModel
+
+
+class Response(BaseResponseModel):
     """Schema for the 'Response' key in tags.sov()."""
 
     response_code: int = Field(..., alias="responsecode")

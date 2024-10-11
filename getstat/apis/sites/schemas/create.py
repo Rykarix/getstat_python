@@ -21,7 +21,10 @@ class CreateRequest(BaseModel):
     drop_directories: bool
 
 
-class Response(BaseModel):
+from ...global_schemas import BaseResponseModel
+
+
+class Response(BaseResponseModel):
     """Schema for the 'Response' key in sites.create()."""
 
     responsecode: str

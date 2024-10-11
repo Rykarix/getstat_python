@@ -19,7 +19,10 @@ class CreateRequest(BaseModel):
     )
 
 
-class Response(BaseModel):
+from ...global_schemas import BaseResponseModel
+
+
+class Response(BaseResponseModel):
     """Schema for the entire response of projects.create()."""
 
     response_code: int = Field(..., alias="responsecode")

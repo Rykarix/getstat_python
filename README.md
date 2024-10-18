@@ -78,14 +78,12 @@ Required inputs should be self explanatory via peaking at methods or you can rev
 - ~~rankings~~
 - ~~serps~~
 - subaccounts
-
-
 ## Utils
 - add tests
 - add utils for json initialised client
+- migrate package installation method away from using #egg to install
 ## refactor & improve codebase
 - revisit pydantic models
-
 
 # Methods:
 
